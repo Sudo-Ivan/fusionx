@@ -8,8 +8,6 @@
 	import { globalState } from '$lib/state.svelte';
 	import {
 		BookmarkCheck,
-		ChevronDown,
-		ChevronRight,
 		CircleEllipsis,
 		CirclePlus,
 		Command,
@@ -28,6 +26,7 @@
 		toggleShow as toggleShowShortcutHelpModal
 	} from './ShortcutHelpModal.svelte';
 	import ThemeController from './ThemeController.svelte';
+	import DroppableGroup from './DroppableGroup.svelte';
 
 	let openGroups = $state<Record<number, boolean>>({});
 
@@ -186,56 +185,13 @@
 			<li class="menu-title text-xs">{t('common.feeds')}</li>
 			{#each groupList as group}
 				{@const isOpen = openGroups[group.id]}
-				<li class="p-0">
-					<div class="gap-0 p-0">
-						<button
-							class="btn btn-ghost btn-sm btn-square"
-							onclick={(event) => {
-								event.preventDefault();
-								openGroups[group.id] = !isOpen;
-							}}
-						>
-							{#if isOpen}
-								<ChevronDown class="size-4" />
-							{:else}
-								<ChevronRight class="size-4" />
-							{/if}
-						</button>
-						<a
-							href="/groups/{group.id}"
-							class="line-clamp-1 block h-full grow place-content-center text-left"
-						>
-							{group.name}
-						</a>
-					</div>
-					<ul class:hidden={!isOpen}>
-						{#each group.feeds as feed}
-							{@const textColor = feed.suspended
-								? 'text-neutral-content/60'
-								: feed.failure
-									? 'text-error'
-									: ''}
-							<li>
-								<a
-									id="sidebar-feed-{feed.indexInList}"
-									data-group-id={group.id}
-									href="/feeds/{feed.id}"
-									class={`${isHighlight('/feeds/' + feed.id) ? 'menu-active' : ''} focus:ring-2`}
-								>
-									<div class="avatar">
-										<div class="size-4 rounded-full">
-											<img src={getFavicon(feed.link)} alt={feed.name} loading="lazy" />
-										</div>
-									</div>
-									<span class={`line-clamp-1 grow ${textColor}`}>{feed.name}</span>
-									{#if feed.unread_count > 0}
-										<span class="text-base-content/60 text-xs">{feed.unread_count}</span>
-									{/if}
-								</a>
-							</li>
-						{/each}
-					</ul>
-				</li>
+				<DroppableGroup 
+					{group}
+					{isOpen}
+					onToggle={() => { openGroups[group.id] = !isOpen; }}
+					isHighlightedGroup={isHighlight}
+					isHighlightedFeed={isHighlight}
+				/>
 			{/each}
 		</ul>
 	</div>
