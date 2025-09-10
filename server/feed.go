@@ -117,13 +117,14 @@ func (f Feed) Create(ctx context.Context, req *ReqFeedCreate) (*RespFeedCreate, 
 			for _, feed := range feeds {
 				routinePool <- struct{}{}
 				wg.Add(1)
-				go func() {
-					// NOTE: do not use the incoming ctx, as it will be Done() automatically
-					// by api timeout middleware
-					puller.PullOne(context.Background(), feed.ID)
-					<-routinePool
-					wg.Done()
-				}()
+					go func() {
+						// NOTE: do not use the incoming ctx, as it will be Done() automatically
+						// by api timeout middleware
+						// #nosec G104 - Feed pull errors are logged by puller, don't block feed creation
+						puller.PullOne(context.Background(), feed.ID)
+						<-routinePool
+						wg.Done()
+					}()
 			}
 			wg.Wait()
 		}()

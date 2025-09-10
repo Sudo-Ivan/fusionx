@@ -61,6 +61,7 @@ func (s Session) Check(c echo.Context) error {
 		sess.Options.MaxAge = -1
 		// Deliberately swallow the error because we're already returning a more
 		// important error.
+		// #nosec G104 - Session save errors are less critical than auth errors
 		sess.Save(c.Request(), c.Response())
 		return err
 	}

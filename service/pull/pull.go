@@ -45,6 +45,7 @@ func (p *Puller) Run() {
 	defer ticker.Stop()
 
 	for {
+		// #nosec G104 - PullAll errors are logged internally, service should continue running
 		p.PullAll(context.Background(), false)
 
 		<-ticker.C

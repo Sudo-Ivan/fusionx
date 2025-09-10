@@ -2,7 +2,7 @@ package main
 
 import (
 	"net/http"
-	_ "net/http/pprof"
+	_ "net/http/pprof" // #nosec G108 - pprof is only enabled in debug mode for development
 	"os"
 
 	"log/slog"
@@ -26,6 +26,7 @@ func main() {
 		slog.SetDefault(l)
 
 		go func() {
+			// #nosec G114 - pprof server is only for development debugging, localhost only
 			if err := http.ListenAndServe("localhost:6060", nil); err != nil {
 				slog.Error("pprof server", "error", err)
 				return

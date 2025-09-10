@@ -157,6 +157,7 @@ func errorHandler(err error, c echo.Context) {
 		err = echo.NewHTTPError(http.StatusNotFound, "Resource not exists")
 	} else {
 		if bizerr, ok := err.(server.BizError); ok {
+			// #nosec G115 - HTTPCode is validated to be within HTTP status code range in BizError creation
 			err = echo.NewHTTPError(int(bizerr.HTTPCode), bizerr.FEMessage)
 		}
 	}
@@ -174,6 +175,7 @@ func newCustomValidator() *CustomValidator {
 	uni := ut.New(en, en)
 	trans, _ := uni.GetTranslator("en")
 	validate := validator.New()
+	// #nosec G104 - Translation registration errors are non-critical for validator functionality
 	en_translations.RegisterDefaultTranslations(validate, trans)
 	return &CustomValidator{
 		handler: validate,
