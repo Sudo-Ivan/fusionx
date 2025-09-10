@@ -1,5 +1,5 @@
 <h1 align="center">FusionX</h1>
-<p align="center">FusionX is a fork of Fusion with some updates for personal usage.</p>
+<p align="center">FusionX is a fork of Fusion RSS with faster and more experimental updates.</p>
 
 ## Features of FusionX
 
@@ -7,6 +7,7 @@
 - Pull to refresh on unread
 - Stats on settings page
 - Display errors on status page for any issues fetching feeds.
+- Optimized GH Actions build process
 
 ## Features of Fusion
 
