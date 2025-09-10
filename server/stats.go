@@ -48,6 +48,7 @@ func (s Stats) Get(ctx context.Context) (*RespStats, error) {
 		return nil, err
 	}
 
+	// GetLastFeedUpdate can return nil without error when no feeds exist
 	lastFeedUpdate, err := s.repo.GetLastFeedUpdate()
 	if err != nil {
 		return nil, err

@@ -44,7 +44,8 @@ func (s Stats) GetLastFeedUpdate() (*time.Time, error) {
 	var feed model.Feed
 	err := s.db.Model(&model.Feed{}).Order("updated_at DESC").First(&feed).Error
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
+		// For stats, no feeds is not an error, just return nil
+		if errors.Is(err, gorm.ErrRecordNotFound) || errors.Is(err, ErrNotFound) {
 			return nil, nil
 		}
 		return nil, err
