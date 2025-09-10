@@ -32,7 +32,7 @@ jobs:
         run: ./scripts.sh test
 
       - name: Run security scan
-        uses: securecodewarrior/github-action-gosec@master
+        uses: securego/gosec@master
         with:
           args: './...'
 
