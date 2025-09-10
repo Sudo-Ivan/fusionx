@@ -1,17 +1,16 @@
-<h1 align="center">Fusion</h1>
+<h1 align="center">FusionX</h1>
 <p align="center">A lightweight RSS feed aggregator and reader.</p>
-<p align="center">
-  <a href="https://news.ycombinator.com/item?id=40522244">
-    <img
-      alt="Featured on Hacker News"
-      src="https://hackerbadge.vercel.app/api?id=40522244"
-    />
-  </a>
-</p>
 
-![screenshots](./assets/screenshots.png)
+FusionX is a fork of Fusion with some updates for personal usage. 
 
-## Features
+## Features of FusionX
+
+- Draggable feeds between groups
+- Pull to refresh on unread
+- Stats on settings page
+- Display errors on status page for any issues fetching feeds.
+
+## Features of Fusion
 
 - Group, bookmark, search, automatic feed sniffing, OPML file import/export
 - Supports RSS, Atom, and JSON feed types

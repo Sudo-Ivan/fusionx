@@ -49,5 +49,6 @@ func main() {
 		UseSecureCookie: config.SecureCookie,
 		TLSCert:         config.TLSCert,
 		TLSKey:          config.TLSKey,
+		DBPath:          config.DB,
 	})
 }

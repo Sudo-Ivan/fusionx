@@ -63,6 +63,8 @@
 		class:bg-opacity-20={isDropTarget}
 		class:ring-2={isDropTarget}
 		class:ring-primary={isDropTarget}
+		role="group"
+		aria-label="Drop zone for moving feeds"
 		ondragover={handleDragOver}
 		ondragleave={handleDragLeave}
 		ondrop={handleDrop}

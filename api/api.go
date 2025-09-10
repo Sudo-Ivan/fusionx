@@ -31,6 +31,7 @@ type Params struct {
 	UseSecureCookie bool
 	TLSCert         string
 	TLSKey          string
+	DBPath          string
 }
 
 func Run(params Params) {
@@ -134,6 +135,9 @@ func Run(params Params) {
 	items.PATCH("/:id/bookmark", itemAPIHandler.UpdateBookmark)
 	items.PATCH("/-/unread", itemAPIHandler.UpdateUnread)
 	items.DELETE("/:id", itemAPIHandler.Delete)
+
+	statsAPIHandler := newStatsAPI(server.NewStats(repo.NewStats(repo.DB), params.DBPath))
+	authed.GET("/stats", statsAPIHandler.Get)
 
 	var err error
 	addr := fmt.Sprintf("%s:%d", params.Host, params.Port)

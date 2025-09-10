@@ -117,8 +117,9 @@
 	class="pull-to-refresh-container"
 	style:transform={`translateY(${pullDistance}px)`}
 	style:transition={isDragging ? 'none' : 'transform 0.3s ease'}
-	role="region"
-	aria-label="Pull to refresh"
+	role="application"
+	aria-label="Pull to refresh content"
+	tabindex="0"
 	onmousedown={handleMouseDown}
 	ontouchstart={handleTouchStart}
 	ontouchmove={handleTouchMove}

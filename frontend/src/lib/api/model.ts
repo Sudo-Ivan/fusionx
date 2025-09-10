@@ -12,6 +12,7 @@ export type Feed = {
 	suspended: boolean;
 	req_proxy: string;
 	unread_count: number;
+	consecutive_failures?: number;
 	group: Group;
 };
 

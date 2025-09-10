@@ -6,6 +6,8 @@
 	import GlobalActionSection from './GlobalActionSection.svelte';
 	import GroupSection from './GroupSection.svelte';
 	import AppearanceSection from './AppearanceSection.svelte';
+	import StatsSection from './StatsSection.svelte';
+	import ErrorsSection from './ErrorsSection.svelte';
 	import { t } from '$lib/i18n';
 
 	const links: {
@@ -14,7 +16,9 @@
 	}[] = [
 		{ label: t('settings.global_actions'), hash: '#global-actions' },
 		{ label: t('settings.appearance'), hash: '#appearance' },
-		{ label: t('common.groups'), hash: '#groups' }
+		{ label: t('common.groups'), hash: '#groups' },
+		{ label: 'Statistics', hash: '#stats' },
+		{ label: 'Errors', hash: '#errors' }
 	];
 
 	onMount(() => {
@@ -52,6 +56,8 @@
 				<GlobalActionSection />
 				<AppearanceSection />
 				<GroupSection />
+				<StatsSection />
+				<ErrorsSection />
 			</div>
 		</div>
 	</div>

@@ -3,15 +3,16 @@ package server
 import "time"
 
 type FeedForm struct {
-	ID          uint      `json:"id"`
-	Name        *string   `json:"name"`
-	Link        *string   `json:"link"`
-	Failure     *string   `json:"failure"`
-	Suspended   *bool     `json:"suspended"`
-	ReqProxy    *string   `json:"req_proxy"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	UnreadCount int       `json:"unread_count"`
-	Group       GroupForm `json:"group"`
+	ID                  uint      `json:"id"`
+	Name                *string   `json:"name"`
+	Link                *string   `json:"link"`
+	Failure             *string   `json:"failure"`
+	Suspended           *bool     `json:"suspended"`
+	ReqProxy            *string   `json:"req_proxy"`
+	UpdatedAt           time.Time `json:"updated_at"`
+	UnreadCount         int       `json:"unread_count"`
+	ConsecutiveFailures uint      `json:"consecutive_failures"`
+	Group               GroupForm `json:"group"`
 }
 
 type ReqFeedList struct {
