@@ -1,7 +1,5 @@
 <h1 align="center">FusionX</h1>
-<p align="center">A lightweight RSS feed aggregator and reader.</p>
-
-FusionX is a fork of Fusion with some updates for personal usage. 
+<p align="center">FusionX is a fork of Fusion with some updates for personal usage.</p>
 
 ## Features of FusionX
 
