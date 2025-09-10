@@ -1,15 +1,42 @@
-name: release
+name: ci
 
 on:
   push:
-    tags:
-      - "v*.*.*"
-
-permissions:
-  contents: write
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-  build-assets:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Run tests
+        run: ./scripts.sh test
+
+      - name: Run security scan
+        run: |
+          go install github.com/securecodewarrior/gosec/v2/cmd/gosec@latest
+          gosec ./...
+
+  build-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,10 +63,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Build frontend
-        run: |
-          # Extract version from git tag (remove 'v' prefix).
-          VERSION=${GITHUB_REF#refs/tags/v}
-          FUSION_VERSION=$VERSION ./scripts.sh build-frontend
+        run: ./scripts.sh build-frontend
 
       - name: Upload frontend artifacts
         uses: actions/upload-artifact@v4
@@ -48,19 +72,21 @@ jobs:
           path: frontend/build/
           retention-days: 1
 
-  release:
+  build-backend:
     runs-on: ubuntu-latest
-    needs: [build-assets]
+    needs: [test]
+    strategy:
+      matrix:
+        os: [linux]
+        arch: [amd64, arm64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version: "1.23"
 
       - name: Cache Go modules
         uses: actions/cache@v4
@@ -76,10 +102,12 @@ jobs:
           name: frontend-build
           path: frontend/build/
 
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: goreleaser/goreleaser-action@v6
+      - name: Build backend
+        run: ./scripts.sh build-backend ${{ matrix.os }} ${{ matrix.arch }}
+
+      - name: Upload backend artifacts
+        uses: actions/upload-artifact@v4
         with:
-          distribution: goreleaser
-          args: release --clean
+          name: backend-${{ matrix.os }}-${{ matrix.arch }}
+          path: build/
+          retention-days: 1

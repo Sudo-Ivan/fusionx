@@ -30,7 +30,14 @@ build_frontend() {
   echo "Using fusion version string: ${version}"
 
   cd ./frontend
-  pnpm i
+  
+  # Use frozen lockfile for CI builds, skip if lockfile doesn't exist
+  if [ -f "pnpm-lock.yaml" ] && [ "${CI:-}" = "true" ]; then
+    pnpm i --frozen-lockfile
+  else
+    pnpm i
+  fi
+  
   VITE_FUSION_VERSION="$version" pnpm run build
   cd $root
 }
@@ -47,7 +54,14 @@ build_backend() {
 
 build() {
   test_go
-  build_frontend
+  
+  # Check if frontend is already built (for CI optimization)
+  if [ ! -f "./frontend/build/index.html" ] || [ "${FORCE_REBUILD:-}" = "true" ]; then
+    build_frontend
+  else
+    echo "Frontend already built, skipping..."
+  fi
+  
   build_backend
 }
 
