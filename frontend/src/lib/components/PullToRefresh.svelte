@@ -112,6 +112,8 @@
 	});
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <div 
 	bind:this={container}
 	class="pull-to-refresh-container"
