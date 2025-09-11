@@ -19,6 +19,12 @@
   - Uses about 80MB of memory
 - Internationalization (i18n): English, Chinese, German, French, Spanish, Russian, Portuguese, and Swedish
 
+<details>
+<summary>Drop-in replacement for Fusion</summary>
+
+Replace `ghcr.io/0x2e/fusion:latest` with `ghcr.io/sudo-ivan/fusionx:latest` in your Docker setup.
+</details>
+
 ## Installation
 
 <details>
@@ -34,7 +40,7 @@
 docker run -it -d -p 8080:8080 \
   -v $(pwd)/fusion:/data \
   -e PASSWORD="fusion" \
-  ghcr.io/0x2e/fusion:latest
+  ghcr.io/sudo-ivan/fusionx:latest
 ```
 
 - Docker Compose
@@ -43,7 +49,7 @@ docker run -it -d -p 8080:8080 \
 version: "3"
 services:
   fusion:
-    image: ghcr.io/0x2e/fusion:latest
+    image: ghcr.io/sudo-ivan/fusionx:latest
     ports:
       - "127.0.0.1:8080:8080"
     environment:

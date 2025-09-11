@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { getFeedErrors, type FeedError } from '$lib/api/errors';
-	import { refreshFeeds } from '$lib/api/feed';
+	import { refreshFeeds, deleteFeed } from '$lib/api/feed';
 	import { getFavicon } from '$lib/api/favicon';
 	import { t } from '$lib/i18n';
-	import { AlertTriangle, ExternalLink, RefreshCw, Clock } from 'lucide-svelte';
+	import { AlertTriangle, ExternalLink, RefreshCw, Clock, Trash2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import Section from './Section.svelte';
@@ -47,6 +47,41 @@
 		}
 	}
 
+	async function removeFeed(feedId: number, feedName: string) {
+		if (!confirm(`Remove feed "${feedName}"? This will permanently delete the feed and all its items.`)) return;
+		
+		try {
+			await deleteFeed(feedId);
+			toast.success(`Feed "${feedName}" removed successfully`);
+			await loadErrors();
+		} catch (e) {
+			toast.error('Failed to remove feed');
+		}
+	}
+
+	async function removeAllProblemFeeds() {
+		if (errors.length === 0) return;
+		
+		const feedsToRemove = errors.filter(e => e.consecutive_failures >= 3);
+		if (feedsToRemove.length === 0) {
+			toast.info('No feeds with 3+ consecutive failures to remove');
+			return;
+		}
+		
+		if (!confirm(`Remove ${feedsToRemove.length} feed${feedsToRemove.length === 1 ? '' : 's'} with 3+ consecutive failures? This will permanently delete these feeds and all their items.`)) return;
+		
+		try {
+			for (const feedError of feedsToRemove) {
+				await deleteFeed(feedError.feed.id);
+			}
+			toast.success(`Removed ${feedsToRemove.length} problematic feed${feedsToRemove.length === 1 ? '' : 's'}`);
+			await loadErrors();
+		} catch (e) {
+			toast.error('Failed to remove some feeds');
+			await loadErrors();
+		}
+	}
+
 	function getErrorSeverity(consecutiveFailures: number): 'warning' | 'error' {
 		return consecutiveFailures >= 3 ? 'error' : 'warning';
 	}
@@ -86,18 +121,26 @@
 				<p class="text-sm text-base-content/60">
 					{errors.length} feed{errors.length === 1 ? '' : 's'} with errors
 				</p>
-				<button onclick={retryAllFailed} class="btn btn-sm btn-outline">
-					<RefreshCw class="size-4" />
-					Retry All
-				</button>
+				<div class="flex gap-2">
+					<button onclick={retryAllFailed} class="btn btn-sm btn-outline">
+						<RefreshCw class="size-4" />
+						Retry All
+					</button>
+					{#if errors.some(e => e.consecutive_failures >= 3)}
+						<button onclick={removeAllProblemFeeds} class="btn btn-sm btn-outline btn-error">
+							<Trash2 class="size-4" />
+							Remove Problem Feeds
+						</button>
+					{/if}
+				</div>
 			</div>
 
 			<div class="space-y-3">
 				{#each errors as feedError}
 					{@const severity = getErrorSeverity(feedError.consecutive_failures)}
-					<div class={`alert alert-${severity}`}>
+					<div class={`alert alert-${severity} border border-opacity-30`}>
 						<div class="flex items-start gap-3 w-full">
-							<AlertTriangle class="size-5 shrink-0 mt-0.5" />
+							<AlertTriangle class="size-5 shrink-0 mt-0.5 text-current" />
 							
 							<div class="flex-1 min-w-0">
 								<div class="flex items-center gap-2 mb-1">
@@ -106,22 +149,22 @@
 											<img src={getFavicon(feedError.feed.link)} alt={feedError.feed.name} loading="lazy" />
 										</div>
 									</div>
-									<span class="font-medium truncate">{feedError.feed.name}</span>
-									<span class="badge badge-sm">
+									<span class="font-semibold text-current truncate">{feedError.feed.name}</span>
+									<span class="badge badge-sm badge-outline">
 										{feedError.consecutive_failures} failure{feedError.consecutive_failures === 1 ? '' : 's'}
 									</span>
 								</div>
 								
-								<p class="text-sm opacity-80 mb-2 break-words">
+								<p class="text-sm text-current opacity-90 mb-2 break-words font-medium">
 									{feedError.error_message}
 								</p>
 								
-								<div class="flex items-center gap-4 text-xs opacity-60">
+								<div class="flex items-center gap-4 text-xs text-current opacity-75">
 									<div class="flex items-center gap-1">
 										<Clock class="size-3" />
 										Last attempt: {formatTimeAgo(feedError.last_attempt)}
 									</div>
-									<a href={feedError.feed.link} target="_blank" class="flex items-center gap-1 hover:underline">
+									<a href={feedError.feed.link} target="_blank" class="flex items-center gap-1 hover:underline text-current">
 										<ExternalLink class="size-3" />
 										View Feed
 									</a>
@@ -135,6 +178,10 @@
 								<button onclick={() => retryFeed(feedError.feed.id)} class="btn btn-xs btn-outline">
 									<RefreshCw class="size-3" />
 									Retry
+								</button>
+								<button onclick={() => removeFeed(feedError.feed.id, feedError.feed.name)} class="btn btn-xs btn-outline btn-error">
+									<Trash2 class="size-3" />
+									Remove
 								</button>
 							</div>
 						</div>
