@@ -11,10 +11,14 @@ builds:
     goarch:
       - amd64
       - arm64
+      - arm
+    goarm:
+      - 6
+      - 7
 
 archives:
   - id: default
-    formats: ["zip"]
+    formats: ["binary"]
     # Additional files/globs you want to add to the archive.
     files:
       - "LICENSE*"
