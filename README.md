@@ -1,5 +1,5 @@
 <h1 align="center">FusionX</h1>
-<p align="center">FusionX is a fork of Fusion RSS with faster and more experimental updates.</p>
+<p align="center">FusionX is a fork of Fusion with faster and more experimental updates.</p>
 
 ## Features of FusionX
 
@@ -8,6 +8,15 @@
 - Stats on settings page
 - Display errors on status page for any issues fetching feeds.
 - Optimized GH Actions build process
+- Arm 32-bit support (v6 and v7)
+
+## To-Do
+
+- Better search system
+- Configurable Keyword and other filters for feeds
+- Desktop app (Wails?)
+- 3-pane view or drawer slide-out reading pane. 
+- Share feeds 
 
 ## Features of Fusion
 
