@@ -76,6 +76,7 @@ const lang = {
 	'item.goto_feed': '前往订阅源',
 	'item.visit_the_original': '访问原始链接',
 	'item.share': '分享',
+	'item.link_copied': '链接已复制到剪贴板',
 
 	// settings
 	'settings.appearance': '外观',

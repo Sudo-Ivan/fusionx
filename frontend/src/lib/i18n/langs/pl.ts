@@ -79,6 +79,7 @@ const lang = {
 	'item.goto_feed': 'Idź do kanału',
 	'item.visit_the_original': 'Odwiedź link źródłowy',
 	'item.share': 'Udostępnij',
+	'item.link_copied': 'Link skopiowany do schowka',
 
 	// settings
 	'settings.appearance': 'Wygląd',

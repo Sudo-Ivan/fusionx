@@ -78,6 +78,7 @@ const lang = {
 	'item.goto_feed': 'Aller au flux',
 	'item.visit_the_original': 'Visiter le lien original',
 	'item.share': 'Partager',
+	'item.link_copied': 'Lien copié dans le presse-papiers',
 
 	// settings
 	'settings.appearance': 'Apparence',

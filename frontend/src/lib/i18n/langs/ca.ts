@@ -78,6 +78,7 @@ const lang = {
 	'item.goto_feed': 'Anar al canal',
 	'item.visit_the_original': "Visitar l'enllaç original",
 	'item.share': 'Compatir',
+	'item.link_copied': 'Enllaç copiat al porta-retalls',
 
 	// settings
 	'settings.appearance': 'Aparença',

@@ -78,6 +78,7 @@ const lang = {
 	'item.goto_feed': 'Ir para o feed',
 	'item.visit_the_original': 'Visitar link original',
 	'item.share': 'Partilhar',
+	'item.link_copied': 'Link copiado para a área de transferência',
 
 	// settings
 	'settings.appearance': 'Aparência',

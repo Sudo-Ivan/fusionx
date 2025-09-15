@@ -78,6 +78,7 @@ const lang = {
 	'item.goto_feed': 'Перейти к ленте',
 	'item.visit_the_original': 'Посетить оригинальную ссылку',
 	'item.share': 'Предоставить общий доступ',
+	'item.link_copied': 'Ссылка скопирована в буфер обмена',
 
 	// settings
 	'settings.appearance': 'Внешний вид',

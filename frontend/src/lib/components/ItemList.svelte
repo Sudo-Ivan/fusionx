@@ -7,6 +7,7 @@
 	import { defaultPageSize } from '$lib/consts';
 	import { t } from '$lib/i18n';
 	import ItemActionBookmark from './ItemActionBookmark.svelte';
+	import ItemActionShareLink from './ItemActionShareLink.svelte';
 	import ItemActionUnread from './ItemActionUnread.svelte';
 	import ItemActionVisitLink from './ItemActionVisitLink.svelte';
 	import Pagination from './Pagination.svelte';
@@ -166,6 +167,7 @@
 						>
 							<ItemActionUnread bind:item={items[i]} enableShortcut={i === selectedItemIndex} />
 							<ItemActionBookmark bind:item={items[i]} enableShortcut={i === selectedItemIndex} />
+							<ItemActionShareLink {item} />
 							<ItemActionVisitLink {item} enableShortcut={i === selectedItemIndex} />
 						</div>
 					</div>

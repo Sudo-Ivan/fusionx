@@ -75,6 +75,7 @@ const lang = {
 	'item.goto_feed': '前往訂閱源',
 	'item.visit_the_original': '訪問原始連結',
 	'item.share': '分享',
+	'item.link_copied': '連結已複製到剪貼簿',
 
 	// settings
 	'settings.appearance': '外觀',
