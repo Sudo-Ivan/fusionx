@@ -159,15 +159,10 @@ func Run(params Params) {
 	statsAPIHandler := newStatsAPI(server.NewStats(repo.NewStats(repo.DB), params.DBPath))
 	authed.GET("/stats", statsAPIHandler.Get)
 
-	configAPIHandler := newConfigAPI(server.NewConfig(repo.NewConfig(repo.DB)))
+	configAPIHandler := newConfigAPI(server.NewConfig(repo.NewConfig(repo.DB), params.DemoMode))
 	authed.GET("/config", configAPIHandler.Get)
 	authed.PATCH("/config", configAPIHandler.Update)
 
-	r.GET("/api/config", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, map[string]interface{}{
-			"demo_mode": params.DemoMode,
-		})
-	})
 
 	var err error
 	addr := fmt.Sprintf("%s:%d", params.Host, params.Port)

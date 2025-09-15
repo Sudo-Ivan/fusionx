@@ -3,7 +3,8 @@ import { type Feed, type Group } from './api/model';
 export const globalState = $state({
 	groups: [] as Group[],
 	feeds: [] as Feed[],
-	demoMode: false
+	demoMode: false,
+	readingPaneMode: 'default' as 'default' | '3pane' | 'drawer'
 });
 
 export function setGlobalFeeds(feeds: Feed[]) {
@@ -16,6 +17,10 @@ export function setGlobalGroups(groups: Group[]) {
 
 export function setDemoMode(demoMode: boolean) {
 	globalState.demoMode = demoMode;
+}
+
+export function setReadingPaneMode(mode: 'default' | '3pane' | 'drawer') {
+	globalState.readingPaneMode = mode;
 }
 
 export function updateUnreadCount(feedId: number, change: number) {

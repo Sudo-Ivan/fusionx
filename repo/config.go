@@ -28,10 +28,23 @@ func (c *Config) Get(key string) (string, error) {
 }
 
 func (c *Config) Set(key, value string) error {
-	config := model.Config{
-		Key:   key,
-		Value: value,
+	var config model.Config
+	result := c.db.Where("key = ?", key).First(&config)
+	
+	if result.Error != nil {
+		if result.Error == ErrNotFound {
+			// Create new config entry
+			config = model.Config{
+				Key:   key,
+				Value: value,
+			}
+			return c.db.Create(&config).Error
+		}
+		return result.Error
 	}
+	
+	// Update existing config entry
+	config.Value = value
 	return c.db.Save(&config).Error
 }
 

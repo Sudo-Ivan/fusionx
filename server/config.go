@@ -8,6 +8,9 @@ import (
 const (
 	ConfigKeyFeedRefreshInterval = "feed_refresh_interval"
 	DefaultFeedRefreshInterval   = 30 * time.Minute
+
+	ConfigKeyReadingPaneMode = "reading_pane_mode"
+	DefaultReadingPaneMode   = "default" // "default", "3pane", "drawer"
 )
 
 type ConfigRepo interface {
@@ -18,21 +21,26 @@ type ConfigRepo interface {
 }
 
 type Config struct {
-	repo ConfigRepo
+	repo     ConfigRepo
+	demoMode bool
 }
 
-func NewConfig(repo ConfigRepo) *Config {
+func NewConfig(repo ConfigRepo, demoMode bool) *Config {
 	return &Config{
-		repo: repo,
+		repo:     repo,
+		demoMode: demoMode,
 	}
 }
 
 type ReqConfigUpdate struct {
-	FeedRefreshIntervalMinutes int `json:"feed_refresh_interval_minutes" validate:"min=1,max=10080"`
+	FeedRefreshIntervalMinutes int    `json:"feed_refresh_interval_minutes,omitempty" validate:"omitempty,min=1,max=10080"`
+	ReadingPaneMode           string `json:"reading_pane_mode,omitempty" validate:"omitempty,oneof=default 3pane drawer"`
 }
 
 type RespConfig struct {
-	FeedRefreshIntervalMinutes int `json:"feed_refresh_interval_minutes"`
+	FeedRefreshIntervalMinutes int    `json:"feed_refresh_interval_minutes"`
+	ReadingPaneMode           string `json:"reading_pane_mode"`
+	DemoMode                  bool   `json:"demo_mode"`
 }
 
 func (c *Config) Get(ctx context.Context) (*RespConfig, error) {
@@ -41,14 +49,34 @@ func (c *Config) Get(ctx context.Context) (*RespConfig, error) {
 		return nil, err
 	}
 
+	readingPaneMode, err := c.repo.Get(ConfigKeyReadingPaneMode)
+	if err != nil {
+		readingPaneMode = DefaultReadingPaneMode
+	}
+
 	return &RespConfig{
 		FeedRefreshIntervalMinutes: int(interval.Minutes()),
+		ReadingPaneMode:           readingPaneMode,
+		DemoMode:                  c.demoMode,
 	}, nil
 }
 
 func (c *Config) Update(ctx context.Context, req *ReqConfigUpdate) error {
-	interval := time.Duration(req.FeedRefreshIntervalMinutes) * time.Minute
-	return c.repo.SetDuration(ConfigKeyFeedRefreshInterval, interval)
+	// Always update both fields when provided
+	if req.FeedRefreshIntervalMinutes > 0 {
+		interval := time.Duration(req.FeedRefreshIntervalMinutes) * time.Minute
+		if err := c.repo.SetDuration(ConfigKeyFeedRefreshInterval, interval); err != nil {
+			return err
+		}
+	}
+
+	if req.ReadingPaneMode != "" {
+		if err := c.repo.Set(ConfigKeyReadingPaneMode, req.ReadingPaneMode); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (c *Config) GetFeedRefreshInterval() (time.Duration, error) {

@@ -10,7 +10,9 @@
 	import { ExternalLink } from 'lucide-svelte';
 	import ItemSwitcher from './ItemSwitcher.svelte';
 	import { listItems, type ListFilter } from '$lib/api/item';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
+	import { globalState } from '$lib/state.svelte';
+	import { onMount } from 'svelte';
 
 	let { data } = $props();
 
@@ -18,6 +20,9 @@
 	$effect(() => {
 		item = data;
 	});
+
+	// Don't render this page in 3-pane or drawer mode - let the layout handle it
+	let shouldShowItemPage = $derived(globalState.readingPaneMode === 'default');
 
 	let safeContent = $derived(render(data.content, data.link));
 
@@ -54,37 +59,42 @@
 	});
 </script>
 
-<PageNavHeader title={data.title}>
-	<ItemActionGotoFeed {item} />
-	<ItemActionUnread bind:item enableShortcut={true} />
-	<ItemActionBookmark bind:item enableShortcut={true} />
-	<ItemActionVisitLink {item} enableShortcut={true} />
-	<ItemActionShareLink {item} />
-</PageNavHeader>
+{#if shouldShowItemPage}
+	<PageNavHeader title={data.title}>
+		<ItemActionGotoFeed {item} />
+		<ItemActionUnread bind:item enableShortcut={true} />
+		<ItemActionBookmark bind:item enableShortcut={true} />
+		<ItemActionVisitLink {item} enableShortcut={true} />
+		<ItemActionShareLink {item} />
+	</PageNavHeader>
 
-<div class="relative flex w-full grow justify-around px-4 py-6">
-	<ItemSwitcher itemID={data.id} {itemsQueue} action="previous" />
-	<article class="w-full max-w-prose">
-		<div class="space-y-2 pb-8">
-			<h1 class="text-4xl font-bold">
-				<a
-					href={data.link}
-					target="_blank"
-					class="inline-flex items-center gap-2 no-underline hover:underline"
-				>
-					<span>
-						{data.title || data.link}
-					</span>
-					<ExternalLink class="hidden size-5 md:block" />
+	<div class="relative flex w-full grow justify-around px-4 py-6">
+		<ItemSwitcher itemID={data.id} {itemsQueue} action="previous" />
+		<article class="w-full max-w-prose">
+			<div class="space-y-2 pb-8">
+				<h1 class="text-4xl font-bold">
+					<a
+						href={data.link}
+						target="_blank"
+						class="inline-flex items-center gap-2 no-underline hover:underline"
+					>
+						<span>
+							{data.title || data.link}
+						</span>
+						<ExternalLink class="hidden size-5 md:block" />
+					</a>
+				</h1>
+				<a href={'/feeds/' + data.feed.id} class="text-base-content/60 text-sm hover:underline">
+					{data.feed.name} | {new Date(data.pub_date).toLocaleString()}
 				</a>
-			</h1>
-			<a href={'/feeds/' + data.feed.id} class="text-base-content/60 text-sm hover:underline">
-				{data.feed.name} | {new Date(data.pub_date).toLocaleString()}
-			</a>
-		</div>
-		<div class="prose text-wrap break-words">
-			{@html safeContent}
-		</div>
-	</article>
-	<ItemSwitcher itemID={data.id} {itemsQueue} action="next" />
-</div>
+			</div>
+			<div class="prose text-wrap break-words">
+				{@html safeContent}
+			</div>
+		</article>
+		<ItemSwitcher itemID={data.id} {itemsQueue} action="next" />
+	</div>
+{:else}
+	<!-- In 3-pane or drawer mode, render nothing - let the layout handle the display -->
+	<div></div>
+{/if}

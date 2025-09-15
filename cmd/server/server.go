@@ -50,7 +50,7 @@ func main() {
 		}
 	}
 
-	go pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB), server.NewConfig(repo.NewConfig(repo.DB))).Run()
+	go pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB), server.NewConfig(repo.NewConfig(repo.DB), config.DemoMode)).Run()
 
 	api.Run(api.Params{
 		Host:            config.Host,

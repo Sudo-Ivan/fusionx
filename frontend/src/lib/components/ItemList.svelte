@@ -18,8 +18,10 @@
 			items: Item[];
 		}>;
 		highlightUnread?: boolean;
+		onItemClick?: (item: Item) => void;
+		selectedItemId?: number;
 	}
-	let { data, highlightUnread }: Props = $props();
+	let { data, highlightUnread, onItemClick, selectedItemId }: Props = $props();
 
 	let loading = $state(false);
 	// make items reactive so we can display the updates without reloading the page
@@ -119,10 +121,19 @@
 		<ul data-sveltekit-preload-data="hover">
 			{#each items as item, i}
 				<li class="rounded-md">
-					<a
+					<!-- svelte-ignore a11y_no_static_element_interactions -->
+					<div
 						id={'item-' + i}
-						href={'/items/' + item.id}
-						class="group hover:bg-base-200 relative flex w-full flex-col items-center justify-between space-y-1 space-x-2 rounded-md px-2 py-2 transition-colors focus:ring-2 md:flex-row"
+						role="button"
+						tabindex="0"
+						onclick={() => onItemClick ? onItemClick(item) : goto('/items/' + item.id)}
+						onkeydown={(e) => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								onItemClick ? onItemClick(item) : goto('/items/' + item.id);
+							}
+						}}
+						class={`group hover:bg-base-200 relative flex w-full flex-col items-center justify-between space-y-1 space-x-2 rounded-md px-2 py-2 transition-colors focus:ring-2 md:flex-row cursor-pointer ${selectedItemId === item.id ? 'bg-primary/10 border border-primary/30' : ''}`}
 					>
 						<div class="flex w-full md:w-[80%] md:shrink-0">
 							<h2
@@ -157,7 +168,7 @@
 							<ItemActionBookmark bind:item={items[i]} enableShortcut={i === selectedItemIndex} />
 							<ItemActionVisitLink {item} enableShortcut={i === selectedItemIndex} />
 						</div>
-					</a>
+					</div>
 				</li>
 			{:else}
 				{t('state.no_data')}

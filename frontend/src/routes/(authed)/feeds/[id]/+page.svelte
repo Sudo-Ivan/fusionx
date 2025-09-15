@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FeedActionRefresh from '$lib/components/FeedActionRefresh.svelte';
 	import ItemActionMarkAllasRead from '$lib/components/ItemActionMarkAllasRead.svelte';
-	import ItemList from '$lib/components/ItemList.svelte';
+	import AdaptiveItemLayout from '$lib/components/AdaptiveItemLayout.svelte';
 	import PageNavHeader from '$lib/components/PageNavHeader.svelte';
 	import { t } from '$lib/i18n';
 	import ActionMenu from './ActionMenu.svelte';
@@ -65,6 +65,6 @@
 			<h1 class="text-3xl font-bold">{feed.name}</h1>
 			<p class="text-base-content/60 text-sm">{feed.link}</p>
 		</div>
-		<ItemList data={data.items} highlightUnread={true} />
+		<AdaptiveItemLayout itemsData={data.items} highlightUnread={true} />
 	</div>
 {/await}

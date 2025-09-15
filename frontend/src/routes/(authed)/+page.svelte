@@ -2,7 +2,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { refreshFeeds } from '$lib/api/feed';
 	import ItemActionMarkAllasRead from '$lib/components/ItemActionMarkAllasRead.svelte';
-	import ItemList from '$lib/components/ItemList.svelte';
+	import AdaptiveItemLayout from '$lib/components/AdaptiveItemLayout.svelte';
 	import PageNavHeader from '$lib/components/PageNavHeader.svelte';
 	import PullToRefresh from '$lib/components/PullToRefresh.svelte';
 	import { t } from '$lib/i18n/index.js';
@@ -37,11 +37,13 @@
 	<div class="flex-1 overflow-hidden">
 		<PullToRefresh onrefresh={handleRefresh}>
 			{#snippet children()}
-				<div class="px-4 lg:px-8 h-full overflow-y-auto">
-					<div class="py-6">
+				<div class="h-full flex flex-col">
+					<div class="px-4 lg:px-8 py-6 flex-shrink-0">
 						<h1 class="text-3xl font-bold">{t('common.unread')}</h1>
 					</div>
-					<ItemList data={data.items} highlightUnread={true} />
+					<div class="flex-1 px-4 lg:px-8 overflow-hidden">
+						<AdaptiveItemLayout itemsData={data.items} highlightUnread={true} />
+					</div>
 				</div>
 			{/snippet}
 		</PullToRefresh>

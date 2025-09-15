@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { applyFilterToURL, parseURLtoFilter } from '$lib/api/item';
-	import ItemList from '$lib/components/ItemList.svelte';
+	import AdaptiveItemLayout from '$lib/components/AdaptiveItemLayout.svelte';
 	import PageNavHeader from '$lib/components/PageNavHeader.svelte';
 	import { t } from '$lib/i18n';
 	import { Search } from 'lucide-svelte';
@@ -48,6 +48,6 @@
 				<button type="submit" class="btn btn-primary join-item">{t('common.search')}</button>
 			</div>
 		</form>
-		<ItemList data={data.items} highlightUnread={true} />
+		<AdaptiveItemLayout itemsData={data.items} highlightUnread={true} />
 	</div>
 </div>

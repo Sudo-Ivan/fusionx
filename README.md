@@ -9,13 +9,14 @@
 - Display errors on status page for any issues fetching feeds.
 - Optimized GH Actions build process
 - Arm 32-bit support (v6 and v7)
+- Demo Mode (demo deployment coming soon)
+- 3-pane and drawer slide-out reading views (configure in settings)
 
 ## To-Do
 
 - Better search system
 - Configurable Keyword and other filters for feeds
 - Desktop app (Wails?)
-- 3-pane view or drawer slide-out reading pane. 
 - Share feeds 
 
 ## Features of Fusion

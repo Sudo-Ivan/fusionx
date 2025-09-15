@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ItemList from '$lib/components/ItemList.svelte';
+	import AdaptiveItemLayout from '$lib/components/AdaptiveItemLayout.svelte';
 	import PageNavHeader from '$lib/components/PageNavHeader.svelte';
 	import { t } from '$lib/i18n';
 
@@ -16,6 +16,6 @@
 		<div class="py-6">
 			<h1 class="text-3xl font-bold">{t('common.bookmark')}</h1>
 		</div>
-		<ItemList data={data.items} />
+		<AdaptiveItemLayout itemsData={data.items} />
 	</div>
 </div>
