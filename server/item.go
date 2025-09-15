@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/repo"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/repo"
 )
 
 type ItemRepo interface {

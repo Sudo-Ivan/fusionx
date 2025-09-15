@@ -7,12 +7,12 @@ import (
 
 	"log/slog"
 
-	"github.com/0x2e/fusion/api"
-	"github.com/0x2e/fusion/conf"
-	"github.com/0x2e/fusion/repo"
-	"github.com/0x2e/fusion/server"
-	"github.com/0x2e/fusion/service/demo"
-	"github.com/0x2e/fusion/service/pull"
+	"github.com/Sudo-Ivan/fusionx/api"
+	"github.com/Sudo-Ivan/fusionx/conf"
+	"github.com/Sudo-Ivan/fusionx/repo"
+	"github.com/Sudo-Ivan/fusionx/server"
+	"github.com/Sudo-Ivan/fusionx/service/demo"
+	"github.com/Sudo-Ivan/fusionx/service/pull"
 )
 
 func main() {

@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/0x2e/fusion/service/pull"
+	"github.com/Sudo-Ivan/fusionx/service/pull"
 )
 
 func TestCalculateBackoffTime(t *testing.T) {

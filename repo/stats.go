@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/0x2e/fusion/model"
+	"github.com/Sudo-Ivan/fusionx/model"
 	"gorm.io/gorm"
 )
 

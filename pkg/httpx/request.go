@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/0x2e/fusion/model"
+	"github.com/Sudo-Ivan/fusionx/model"
 )
 
 const UserAgentString = "fusion/1.0"

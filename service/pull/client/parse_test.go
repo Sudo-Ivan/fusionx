@@ -6,9 +6,9 @@ import (
 	"github.com/mmcdole/gofeed"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/pkg/ptr"
-	"github.com/0x2e/fusion/service/pull/client"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/pkg/ptr"
+	"github.com/Sudo-Ivan/fusionx/service/pull/client"
 )
 
 func TestParseGoFeedItems(t *testing.T) {

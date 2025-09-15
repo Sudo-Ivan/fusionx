@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/pkg/ptr"
-	"github.com/0x2e/fusion/service/pull/client"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/pkg/ptr"
+	"github.com/Sudo-Ivan/fusionx/service/pull/client"
 )
 
 // ReadFeedItemsFn is responsible for reading a feed from an HTTP server and

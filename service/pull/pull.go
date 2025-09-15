@@ -7,9 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/pkg/ptr"
-	"github.com/0x2e/fusion/repo"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/pkg/ptr"
+	"github.com/Sudo-Ivan/fusionx/repo"
 )
 
 var (

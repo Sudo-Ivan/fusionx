@@ -1,4 +1,4 @@
-module github.com/0x2e/fusion
+module github.com/Sudo-Ivan/fusionx
 
 go 1.24
 

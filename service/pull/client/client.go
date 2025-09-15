@@ -9,8 +9,8 @@ import (
 
 	"github.com/mmcdole/gofeed"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/pkg/httpx"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/pkg/httpx"
 )
 
 type HttpRequestFn func(ctx context.Context, link string, options model.FeedRequestOptions) (*http.Response, error)

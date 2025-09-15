@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/0x2e/fusion/auth"
-	"github.com/0x2e/fusion/conf"
-	"github.com/0x2e/fusion/frontend"
-	"github.com/0x2e/fusion/repo"
-	"github.com/0x2e/fusion/server"
+	"github.com/Sudo-Ivan/fusionx/auth"
+	"github.com/Sudo-Ivan/fusionx/conf"
+	"github.com/Sudo-Ivan/fusionx/frontend"
+	"github.com/Sudo-Ivan/fusionx/repo"
+	"github.com/Sudo-Ivan/fusionx/server"
 
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"

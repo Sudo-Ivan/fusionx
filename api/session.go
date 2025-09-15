@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/0x2e/fusion/auth"
+	"github.com/Sudo-Ivan/fusionx/auth"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )

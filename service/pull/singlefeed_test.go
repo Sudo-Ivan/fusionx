@@ -9,10 +9,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/pkg/ptr"
-	"github.com/0x2e/fusion/service/pull"
-	"github.com/0x2e/fusion/service/pull/client"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/pkg/ptr"
+	"github.com/Sudo-Ivan/fusionx/service/pull"
+	"github.com/Sudo-Ivan/fusionx/service/pull/client"
 )
 
 // mockFeedReader is a mock implementation of ReadFeedItemsFn

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"log"
 
-	"github.com/0x2e/fusion/model"
+	"github.com/Sudo-Ivan/fusionx/model"
 
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"

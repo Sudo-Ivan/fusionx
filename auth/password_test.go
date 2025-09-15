@@ -3,7 +3,7 @@ package auth_test
 import (
 	"testing"
 
-	"github.com/0x2e/fusion/auth"
+	"github.com/Sudo-Ivan/fusionx/auth"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

@@ -8,10 +8,10 @@ import (
 	"sync"
 
 	"github.com/0x2E/feedfinder"
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/repo"
-	"github.com/0x2e/fusion/service/pull"
-	"github.com/0x2e/fusion/service/pull/client"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/repo"
+	"github.com/Sudo-Ivan/fusionx/service/pull"
+	"github.com/Sudo-Ivan/fusionx/service/pull/client"
 )
 
 type FeedRepo interface {

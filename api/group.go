@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/0x2e/fusion/server"
+	"github.com/Sudo-Ivan/fusionx/server"
 
 	"github.com/labstack/echo/v4"
 )

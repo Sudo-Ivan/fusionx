@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/0x2e/fusion/model"
-	"github.com/0x2e/fusion/pkg/httpx"
+	"github.com/Sudo-Ivan/fusionx/model"
+	"github.com/Sudo-Ivan/fusionx/pkg/httpx"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

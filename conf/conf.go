@@ -6,7 +6,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/0x2e/fusion/auth"
+	"github.com/Sudo-Ivan/fusionx/auth"
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 )
