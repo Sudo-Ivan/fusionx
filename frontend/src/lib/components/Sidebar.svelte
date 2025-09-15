@@ -151,8 +151,7 @@
 				target="_blank"
 				class="btn btn-ghost flex items-center justify-start gap-2"
 			>
-				<img src="/icon-96.png" alt="icon" class="w-6" />
-				<span class="text-lg font-bold">Fusion</span>
+				<span class="text-lg font-bold">Fusion<span class="text-primary font-extrabold">X</span></span>
 			</a>
 			<ThemeController />
 		</div>
@@ -227,15 +226,6 @@
 					<p class="text-base-content/60 text-xs">
 						<span>
 							{version}.
-						</span>
-						<span>
-							Logo by <a
-								class="hover:underline"
-								href="https://icons8.com/icon/FeQbTvGTsiN5/news"
-								target="_blank"
-							>
-								Icons8
-							</a>
 						</span>
 					</p>
 				</div>
