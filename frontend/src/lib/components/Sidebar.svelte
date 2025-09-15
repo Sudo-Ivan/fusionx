@@ -157,19 +157,21 @@
 			<ThemeController />
 		</div>
 
-		<ul class="menu mt-4 w-full font-medium">
-			<li>
-				<button
-					onclick={() => {
-						toggleShowFeedImport();
-					}}
-					class="btn btn-sm btn-ghost bg-base-100"
-				>
-					<CirclePlus class="size-4" />
-					<span>{t('feed.import.title')}</span>
-				</button>
-			</li>
-		</ul>
+		{#if !globalState.demoMode}
+			<ul class="menu mt-4 w-full font-medium">
+				<li>
+					<button
+						onclick={() => {
+							toggleShowFeedImport();
+						}}
+						class="btn btn-sm btn-ghost bg-base-100"
+					>
+						<CirclePlus class="size-4" />
+						<span>{t('feed.import.title')}</span>
+					</button>
+				</li>
+			</ul>
+		{/if}
 
 		<ul class="menu w-full font-medium">
 			{#each systemLinks as v}

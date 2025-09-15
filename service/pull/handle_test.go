@@ -146,7 +146,7 @@ func TestDecideFeedUpdateAction(t *testing.T) {
 		},
 	} {
 		t.Run(tt.description, func(t *testing.T) {
-			action, skipReason := pull.DecideFeedUpdateAction(&tt.feed, tt.currentTime)
+			action, skipReason := pull.DecideFeedUpdateAction(&tt.feed, tt.currentTime, 30*time.Minute)
 			assert.Equal(t, tt.expectedAction, action)
 			assert.Equal(t, tt.expectedSkipReason, skipReason)
 		})

@@ -16,7 +16,8 @@ func (p *Puller) do(ctx context.Context, f *model.Feed, force bool) error {
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
-	updateAction, skipReason := DecideFeedUpdateAction(f, time.Now())
+	currentInterval := p.getCurrentInterval()
+	updateAction, skipReason := DecideFeedUpdateAction(f, time.Now(), currentInterval)
 	if skipReason == &SkipReasonSuspended {
 		logger.Info(fmt.Sprintf("skip: %s", skipReason))
 		return nil
@@ -65,17 +66,17 @@ var (
 	SkipReasonTooSoon    = FeedSkipReason{"feed was updated too recently"}
 )
 
-func DecideFeedUpdateAction(f *model.Feed, now time.Time) (FeedUpdateAction, *FeedSkipReason) {
+func DecideFeedUpdateAction(f *model.Feed, now time.Time, currentInterval time.Duration) (FeedUpdateAction, *FeedSkipReason) {
 	if f.IsSuspended() {
 		return ActionSkipUpdate, &SkipReasonSuspended
 	} else if f.ConsecutiveFailures > 0 {
-		backoffTime := CalculateBackoffTime(f.ConsecutiveFailures)
+		backoffTime := CalculateBackoffTime(f.ConsecutiveFailures, currentInterval)
 		timeSinceUpdate := now.Sub(f.UpdatedAt)
 		if timeSinceUpdate < backoffTime {
 			slog.Info(fmt.Sprintf("%d consecutive feed update failures, so next attempt is after %v", f.ConsecutiveFailures, f.UpdatedAt.Add(backoffTime).Format(time.RFC3339)), "feed_id", f.ID, "feed_link", ptr.From(f.Link))
 			return ActionSkipUpdate, &SkipReasonCoolingOff
 		}
-	} else if now.Sub(f.UpdatedAt) < interval {
+	} else if now.Sub(f.UpdatedAt) < currentInterval {
 		return ActionSkipUpdate, &SkipReasonTooSoon
 	}
 	return ActionFetchUpdate, nil

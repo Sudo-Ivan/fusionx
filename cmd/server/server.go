@@ -10,6 +10,8 @@ import (
 	"github.com/0x2e/fusion/api"
 	"github.com/0x2e/fusion/conf"
 	"github.com/0x2e/fusion/repo"
+	"github.com/0x2e/fusion/server"
+	"github.com/0x2e/fusion/service/demo"
 	"github.com/0x2e/fusion/service/pull"
 )
 
@@ -41,7 +43,14 @@ func main() {
 	}
 	repo.Init(config.DB)
 
-	go pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB)).Run()
+	if config.DemoMode && config.DemoModeFeeds != "" {
+		seeder := demo.NewFeedSeeder(repo.NewFeed(repo.DB), repo.NewGroup(repo.DB))
+		if err := seeder.SeedFeeds(config.DemoModeFeeds); err != nil {
+			slog.Error("Failed to seed demo feeds", "error", err)
+		}
+	}
+
+	go pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB), server.NewConfig(repo.NewConfig(repo.DB))).Run()
 
 	api.Run(api.Params{
 		Host:            config.Host,
@@ -51,5 +60,6 @@ func main() {
 		TLSCert:         config.TLSCert,
 		TLSKey:          config.TLSKey,
 		DBPath:          config.DB,
+		DemoMode:        config.DemoMode,
 	})
 }

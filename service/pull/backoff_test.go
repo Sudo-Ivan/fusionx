@@ -48,7 +48,7 @@ func TestCalculateBackoffTime(t *testing.T) {
 		},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			backoff := pull.CalculateBackoffTime(tt.consecutiveFailures)
+			backoff := pull.CalculateBackoffTime(tt.consecutiveFailures, 30*time.Minute)
 			assert.Equal(t, tt.expectedBackoff, backoff)
 		})
 	}

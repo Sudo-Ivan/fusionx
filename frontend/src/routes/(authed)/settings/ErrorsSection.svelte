@@ -2,6 +2,7 @@
 	import { getFeedErrors, type FeedError } from '$lib/api/errors';
 	import { refreshFeeds, deleteFeed } from '$lib/api/feed';
 	import { getFavicon } from '$lib/api/favicon';
+	import { globalState } from '$lib/state.svelte';
 	import { t } from '$lib/i18n';
 	import { AlertTriangle, ExternalLink, RefreshCw, Clock, Trash2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -122,12 +123,20 @@
 					{errors.length} feed{errors.length === 1 ? '' : 's'} with errors
 				</p>
 				<div class="flex gap-2">
-					<button onclick={retryAllFailed} class="btn btn-sm btn-outline">
+					<button 
+						onclick={retryAllFailed} 
+						disabled={globalState.demoMode}
+						class="btn btn-sm btn-outline"
+					>
 						<RefreshCw class="size-4" />
 						Retry All
 					</button>
 					{#if errors.some(e => e.consecutive_failures >= 3)}
-						<button onclick={removeAllProblemFeeds} class="btn btn-sm btn-outline btn-error">
+						<button 
+							onclick={removeAllProblemFeeds} 
+							disabled={globalState.demoMode}
+							class="btn btn-sm btn-outline btn-error"
+						>
 							<Trash2 class="size-4" />
 							Remove Problem Feeds
 						</button>
@@ -175,11 +184,19 @@
 								<a href="/feeds/{feedError.feed.id}" class="btn btn-xs btn-ghost">
 									View
 								</a>
-								<button onclick={() => retryFeed(feedError.feed.id)} class="btn btn-xs btn-outline">
+								<button 
+									onclick={() => retryFeed(feedError.feed.id)} 
+									disabled={globalState.demoMode}
+									class="btn btn-xs btn-outline"
+								>
 									<RefreshCw class="size-3" />
 									Retry
 								</button>
-								<button onclick={() => removeFeed(feedError.feed.id, feedError.feed.name)} class="btn btn-xs btn-outline btn-error">
+								<button 
+									onclick={() => removeFeed(feedError.feed.id, feedError.feed.name)} 
+									disabled={globalState.demoMode}
+									class="btn btn-xs btn-outline btn-error"
+								>
 									<Trash2 class="size-3" />
 									Remove
 								</button>

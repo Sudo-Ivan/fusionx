@@ -3,6 +3,7 @@
 	import { allGroups } from '$lib/api/group';
 	import { t } from '$lib/i18n';
 	import { dump } from '$lib/opml';
+	import { globalState } from '$lib/state.svelte';
 	import { toast } from 'svelte-sonner';
 	import Section from './Section.svelte';
 
@@ -44,7 +45,10 @@
 
 <Section id="global-actions" title={t('settings.global_actions')}>
 	<div class="flex flex-wrap gap-2">
-		<button onclick={() => handleRefreshAllFeeds()} class="btn btn-wide"
+		<button 
+			onclick={() => handleRefreshAllFeeds()} 
+			disabled={globalState.demoMode}
+			class="btn btn-wide"
 			>{t('settings.global_actions.refresh_all_feeds')}</button
 		>
 		<button onclick={() => handleExportAllFeeds()} class="btn btn-wide"

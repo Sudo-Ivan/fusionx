@@ -108,7 +108,7 @@ func (f Feed) Create(ctx context.Context, req *ReqFeedCreate) (*RespFeedCreate, 
 		IDs: ids,
 	}
 
-	puller := pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB))
+	puller := pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB), nil)
 	if len(feeds) > 1 {
 		go func() {
 			routinePool := make(chan struct{}, 10)
@@ -191,7 +191,7 @@ func (f Feed) Delete(ctx context.Context, req *ReqFeedDelete) error {
 }
 
 func (f Feed) Refresh(ctx context.Context, req *ReqFeedRefresh) error {
-	pull := pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB))
+	pull := pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB), nil)
 	if req.ID != nil {
 		return pull.PullOne(ctx, *req.ID)
 	}

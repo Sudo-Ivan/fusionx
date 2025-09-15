@@ -26,22 +26,30 @@ type ItemRepo interface {
 	Insert(items []*model.Item) error
 }
 
+type ConfigRepo interface {
+	GetFeedRefreshInterval() (time.Duration, error)
+}
+
 type Puller struct {
-	feedRepo FeedRepo
-	itemRepo ItemRepo
+	feedRepo   FeedRepo
+	itemRepo   ItemRepo
+	configRepo ConfigRepo
 }
 
 // TODO: cache favicon
 
-func NewPuller(feedRepo FeedRepo, itemRepo ItemRepo) *Puller {
+func NewPuller(feedRepo FeedRepo, itemRepo ItemRepo, configRepo ConfigRepo) *Puller {
 	return &Puller{
-		feedRepo: feedRepo,
-		itemRepo: itemRepo,
+		feedRepo:   feedRepo,
+		itemRepo:   itemRepo,
+		configRepo: configRepo,
 	}
 }
 
 func (p *Puller) Run() {
-	ticker := time.NewTicker(interval)
+	// Get initial interval
+	currentInterval := p.getCurrentInterval()
+	ticker := time.NewTicker(currentInterval)
 	defer ticker.Stop()
 
 	for {
@@ -49,11 +57,33 @@ func (p *Puller) Run() {
 		p.PullAll(context.Background(), false)
 
 		<-ticker.C
+
+		// Check if interval has changed and update ticker if needed
+		newInterval := p.getCurrentInterval()
+		if newInterval != currentInterval {
+			currentInterval = newInterval
+			ticker.Stop()
+			ticker = time.NewTicker(currentInterval)
+		}
 	}
 }
 
+func (p *Puller) getCurrentInterval() time.Duration {
+	if p.configRepo == nil {
+		return interval
+	}
+	
+	configInterval, err := p.configRepo.GetFeedRefreshInterval()
+	if err != nil {
+		slog.Warn("failed to get feed refresh interval from config, using default", "error", err)
+		return interval
+	}
+	return configInterval
+}
+
 func (p *Puller) PullAll(ctx context.Context, force bool) error {
-	ctx, cancel := context.WithTimeout(ctx, interval/2)
+	currentInterval := p.getCurrentInterval()
+	ctx, cancel := context.WithTimeout(ctx, currentInterval/2)
 	defer cancel()
 
 	feeds, err := p.feedRepo.List(nil)

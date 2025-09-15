@@ -75,7 +75,7 @@ func migrage() {
 	}
 
 	// FIX: gorm not auto drop index and change 'not null'
-	if err := DB.AutoMigrate(&model.Feed{}, &model.Group{}, &model.Item{}); err != nil {
+	if err := DB.AutoMigrate(&model.Feed{}, &model.Group{}, &model.Item{}, &model.Config{}); err != nil {
 		panic(err)
 	}
 

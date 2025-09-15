@@ -32,6 +32,7 @@ type Params struct {
 	TLSCert         string
 	TLSKey          string
 	DBPath          string
+	DemoMode        bool
 }
 
 func Run(params Params) {
@@ -92,7 +93,7 @@ func Run(params Params) {
 
 	authed := r.Group("/api")
 
-	if params.PasswordHash != nil {
+	if params.PasswordHash != nil && !params.DemoMode {
 		loginAPI := Session{
 			PasswordHash:    *params.PasswordHash,
 			UseSecureCookie: params.UseSecureCookie,
@@ -109,6 +110,25 @@ func Run(params Params) {
 		})
 
 		authed.DELETE("/sessions", loginAPI.Delete)
+	}
+
+	if params.DemoMode {
+		authed.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+			return func(c echo.Context) error {
+				method := c.Request().Method
+				path := c.Request().URL.Path
+				
+				// Allow feed refresh in demo mode (read-only operation)
+				if method == "POST" && path == "/api/feeds/refresh" {
+					return next(c)
+				}
+				
+				if method == "POST" || method == "PATCH" || method == "DELETE" {
+					return echo.NewHTTPError(http.StatusForbidden, "Demo mode: write operations not allowed")
+				}
+				return next(c)
+			}
+		})
 	}
 
 	feeds := authed.Group("/feeds")
@@ -138,6 +158,16 @@ func Run(params Params) {
 
 	statsAPIHandler := newStatsAPI(server.NewStats(repo.NewStats(repo.DB), params.DBPath))
 	authed.GET("/stats", statsAPIHandler.Get)
+
+	configAPIHandler := newConfigAPI(server.NewConfig(repo.NewConfig(repo.DB)))
+	authed.GET("/config", configAPIHandler.Get)
+	authed.PATCH("/config", configAPIHandler.Update)
+
+	r.GET("/api/config", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"demo_mode": params.DemoMode,
+		})
+	})
 
 	var err error
 	addr := fmt.Sprintf("%s:%d", params.Host, params.Port)

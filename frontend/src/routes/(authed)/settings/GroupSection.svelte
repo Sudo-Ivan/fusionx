@@ -51,20 +51,35 @@
 	<div class="flex flex-col space-y-4">
 		{#each existingGroups as g}
 			<div class="flex flex-col items-center space-x-2 md:flex-row">
-				<input type="text" class="input w-full md:w-56" bind:value={g.name} />
+				<input 
+					type="text" 
+					class="input w-full md:w-56" 
+					bind:value={g.name} 
+					disabled={globalState.demoMode}
+				/>
 				<div class="flex gap-2">
-					<button onclick={() => handleUpdate(g.id)} class="btn btn-ghost">
+					<button 
+						onclick={() => handleUpdate(g.id)} 
+						disabled={globalState.demoMode}
+						class="btn btn-ghost"
+					>
 						{t('common.save')}
 					</button>
-					<button onclick={() => handleDelete(g.id)} class="btn btn-ghost text-error">
+					<button 
+						onclick={() => handleDelete(g.id)} 
+						disabled={globalState.demoMode}
+						class="btn btn-ghost text-error"
+					>
 						{t('common.delete')}
 					</button>
 				</div>
 			</div>
 		{/each}
-		<div class="flex items-center space-x-2">
-			<input type="text" class="input w-full md:w-56" bind:value={newGroup} />
-			<button onclick={() => handleAddNew()} class="btn btn-ghost"> {t('common.add')} </button>
-		</div>
+		{#if !globalState.demoMode}
+			<div class="flex items-center space-x-2">
+				<input type="text" class="input w-full md:w-56" bind:value={newGroup} />
+				<button onclick={() => handleAddNew()} class="btn btn-ghost"> {t('common.add')} </button>
+			</div>
+		{/if}
 	</div>
 </Section>

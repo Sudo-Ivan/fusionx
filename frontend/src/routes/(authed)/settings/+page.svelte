@@ -6,6 +6,7 @@
 	import GlobalActionSection from './GlobalActionSection.svelte';
 	import GroupSection from './GroupSection.svelte';
 	import AppearanceSection from './AppearanceSection.svelte';
+	import SystemSection from './SystemSection.svelte';
 	import StatsSection from './StatsSection.svelte';
 	import ErrorsSection from './ErrorsSection.svelte';
 	import { t } from '$lib/i18n';
@@ -17,6 +18,7 @@
 		{ label: t('settings.global_actions'), hash: '#global-actions' },
 		{ label: t('settings.appearance'), hash: '#appearance' },
 		{ label: t('common.groups'), hash: '#groups' },
+		{ label: 'System', hash: '#system' },
 		{ label: 'Statistics', hash: '#stats' },
 		{ label: 'Errors', hash: '#errors' }
 	];
@@ -56,6 +58,7 @@
 				<GlobalActionSection />
 				<AppearanceSection />
 				<GroupSection />
+				<SystemSection />
 				<StatsSection />
 				<ErrorsSection />
 			</div>

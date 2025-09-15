@@ -2,7 +2,8 @@ import { type Feed, type Group } from './api/model';
 
 export const globalState = $state({
 	groups: [] as Group[],
-	feeds: [] as Feed[]
+	feeds: [] as Feed[],
+	demoMode: false
 });
 
 export function setGlobalFeeds(feeds: Feed[]) {
@@ -11,6 +12,10 @@ export function setGlobalFeeds(feeds: Feed[]) {
 
 export function setGlobalGroups(groups: Group[]) {
 	globalState.groups = groups;
+}
+
+export function setDemoMode(demoMode: boolean) {
+	globalState.demoMode = demoMode;
 }
 
 export function updateUnreadCount(feedId: number, change: number) {
