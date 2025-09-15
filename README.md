@@ -11,13 +11,15 @@
 - Arm 32-bit support (v6 and v7)
 - Demo Mode (demo deployment coming soon)
 - 3-pane and drawer slide-out reading views (configure in settings)
+- Share button for feed items (copies link to clipboard)
 
 ## To-Do
 
 - Better search system
+- Fever API Support
+- Initial OPML or feed import via command or config
 - Configurable Keyword and other filters for feeds
 - Desktop app (Wails?)
-- Share feeds 
 
 ## Features of Fusion
 
@@ -29,13 +31,13 @@
   - Uses about 80MB of memory
 - Internationalization (i18n): English, Chinese, German, French, Spanish, Russian, Portuguese, and Swedish
 
+## Installation
+
 <details>
-<summary>Drop-in replacement for Fusion</summary>
+<summary>Drop-in replacement for Fusion (Docker)</summary>
 
 Replace `ghcr.io/0x2e/fusion:latest` with `ghcr.io/sudo-ivan/fusionx:latest` in your Docker setup.
 </details>
-
-## Installation
 
 <details>
 <summary>Docker</summary>
@@ -75,7 +77,7 @@ services:
 <details>
 <summary>Pre-built binary</summary>
 
-Download from [Releases](https://github.com/0x2E/fusion/releases).
+Download from [Releases](https://github.com/Sudo-Ivan/fusionx/releases).
 </details>
 
 <details>
