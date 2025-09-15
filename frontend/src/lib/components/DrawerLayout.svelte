@@ -21,8 +21,8 @@
 
 	// Check if we're on an item page and preselect it
 	$effect(() => {
-		if ($page?.url?.pathname) {
-			const url = $page.url;
+		if (page?.url?.pathname) {
+			const url = page.url;
 			const itemMatch = url.pathname.match(/\/items\/(\d+)/);
 			if (itemMatch) {
 				const itemId = parseInt(itemMatch[1], 10);
@@ -50,7 +50,7 @@
 			drawerOpen = true;
 			// Update URL without full navigation
 			const newUrl = `/items/${itemId}`;
-			if ($page?.url?.pathname !== newUrl) {
+			if (page?.url?.pathname !== newUrl) {
 				history.pushState({}, '', newUrl);
 			}
 		} catch (error) {
@@ -58,7 +58,7 @@
 			selectedItem = null;
 			drawerOpen = false;
 			// If item doesn't exist, navigate back to list view
-			if ($page?.url?.pathname?.startsWith('/items/')) {
+			if (page?.url?.pathname?.startsWith('/items/')) {
 				history.back();
 			}
 		} finally {
@@ -74,8 +74,8 @@
 		drawerOpen = false;
 		selectedItem = null;
 		// Navigate back to list view
-		if ($page?.url?.pathname) {
-			const currentPath = $page.url.pathname;
+		if (page?.url?.pathname) {
+			const currentPath = page.url.pathname;
 			if (currentPath.startsWith('/items/')) {
 				// Navigate to the parent route
 				if (currentPath.includes('/feeds/')) {

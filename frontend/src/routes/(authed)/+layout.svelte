@@ -6,7 +6,7 @@
 	import ReadingPane from '$lib/components/ReadingPane.svelte';
 	import { globalState } from '$lib/state.svelte';
 	import { getItem } from '$lib/api/item';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import type { Item } from '$lib/api/model';
 
 	let { children } = $props();
@@ -19,7 +19,7 @@
 	$effect(() => {
 		// Only track the specific values we need to avoid unnecessary re-runs
 		const readingPaneMode = globalState.readingPaneMode;
-		const pathname = $page?.url?.pathname;
+		const pathname = page?.url?.pathname;
 		
 		if (readingPaneMode === '3pane' && pathname) {
 			const itemMatch = pathname.match(/\/items\/(\d+)/);
@@ -52,7 +52,7 @@
 			selectedItem = null;
 			lastLoadedItemId = null;
 			// If item doesn't exist, navigate back to list view
-			if ($page?.url?.pathname?.startsWith('/items/')) {
+			if (page?.url?.pathname?.startsWith('/items/')) {
 				history.back();
 			}
 		} finally {
@@ -64,8 +64,8 @@
 		selectedItem = null;
 		lastLoadedItemId = null;
 		// Navigate back to the current list view
-		if ($page?.url?.pathname) {
-			const currentPath = $page.url.pathname;
+		if (page?.url?.pathname) {
+			const currentPath = page.url.pathname;
 			if (currentPath.startsWith('/items/')) {
 				history.back();
 			}

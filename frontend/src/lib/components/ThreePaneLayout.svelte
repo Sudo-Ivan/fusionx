@@ -23,8 +23,8 @@
 	let selectedItemId = $state<number | undefined>(undefined);
 	
 	$effect(() => {
-		if ($page?.url?.pathname) {
-			const url = $page.url;
+		if (page?.url?.pathname) {
+			const url = page.url;
 			const itemMatch = url.pathname.match(/\/items\/(\d+)/);
 			selectedItemId = itemMatch ? parseInt(itemMatch[1], 10) : undefined;
 		} else {
