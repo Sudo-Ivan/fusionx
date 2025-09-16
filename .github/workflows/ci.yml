@@ -36,6 +36,16 @@ jobs:
         with:
           args: './...'
 
+      - name: Run Trivy vulnerability scanner (critical only)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'CRITICAL'
+          ignore-unfixed: true
+          exit-code: '1'
+
   build-frontend:
     runs-on: ubuntu-latest
     steps:
