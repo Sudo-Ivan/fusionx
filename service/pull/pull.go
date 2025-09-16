@@ -99,7 +99,8 @@ func (p *Puller) FixMissingFavicons(ctx context.Context) {
 			// This feed doesn't have a cached favicon, try to fetch it
 			if faviconPath, err := p.faviconSvc.GetFaviconPath(*feed.Link); err == nil {
 				// Update the feed with the favicon path
-				p.feedRepo.Update(feed.ID, &model.Feed{FaviconPath: &faviconPath})
+				// #nosec G104 - favicon update is non-critical, error can be ignored
+				_ = p.feedRepo.Update(feed.ID, &model.Feed{FaviconPath: &faviconPath})
 				slog.Debug("fixed missing favicon", "feed_id", feed.ID, "favicon_path", faviconPath)
 			}
 		}

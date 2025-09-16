@@ -110,7 +110,7 @@ func (s *Service) fileExists(path string) bool {
 }
 
 func (s *Service) ensureCacheDir() error {
-	return os.MkdirAll(s.cacheDir, 0755)
+	return os.MkdirAll(s.cacheDir, 0750)
 }
 
 func (s *Service) fetchAndCacheFavicon(hostname, cachePath string) (string, error) {
@@ -140,6 +140,7 @@ func (s *Service) downloadFavicon(faviconURL, cachePath string) error {
 		return fmt.Errorf("HTTP %d", resp.StatusCode)
 	}
 
+	// #nosec G304 - cachePath is constructed from sanitized hostname hash
 	file, err := os.Create(cachePath)
 	if err != nil {
 		return err
@@ -162,5 +163,5 @@ func (s *Service) CreateDefaultFavicon(cachePath string) (string, error) {
 		0x44, 0xAE, 0x42, 0x60, 0x82,
 	}
 
-	return cachePath, os.WriteFile(cachePath, defaultFaviconData, 0644)
+	return cachePath, os.WriteFile(cachePath, defaultFaviconData, 0600)
 }

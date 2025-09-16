@@ -119,7 +119,8 @@ func (f Feed) Create(ctx context.Context, req *ReqFeedCreate) (*RespFeedCreate, 
 			if feed.Link != nil {
 				if faviconPath, err := f.faviconSvc.GetFaviconPath(*feed.Link); err == nil {
 					// Update feed with favicon path
-					f.repo.Update(feed.ID, &model.Feed{FaviconPath: &faviconPath})
+					// #nosec G104 - favicon update is non-critical, error can be ignored
+					_ = f.repo.Update(feed.ID, &model.Feed{FaviconPath: &faviconPath})
 				}
 			}
 		}
