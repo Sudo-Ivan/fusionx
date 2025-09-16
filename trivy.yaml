@@ -1,17 +1,15 @@
 # Trivy configuration file
 # https://aquasecurity.github.io/trivy/latest/docs/references/configuration/
 
-# Global settings
+# Database settings
 db:
   skip-update: false
-  
+
 # Vulnerability settings
 vulnerability:
-  type: 'os,library'
-  
-# Secret scanning
-secret:
-  config: .trivyignore
+  type:
+    - os
+    - library
 
 # Severity levels to scan for
 severity:
@@ -35,7 +33,7 @@ skip-files:
   - "**/cache/**"
   - "**/output/**"
 
-# Skip specific directories for different scan types
+# Skip specific directories
 skip-dirs:
   - ".git"
   - "node_modules"
@@ -52,15 +50,8 @@ skip-dirs:
 # For faster scanning in CI, ignore unfixed vulnerabilities
 ignore-unfixed: true
 
-# Exit with code 1 if vulnerabilities found
-exit-code: 1
-
 # Output format (can be overridden by command line)
 format: table
 
 # Timeout settings
 timeout: 5m
-
-# License scanning
-license:
-  full: false

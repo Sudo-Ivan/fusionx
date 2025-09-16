@@ -1,4 +1,4 @@
-# Trivy ignore file
+# Trivy ignore file for vulnerabilities and secrets
 # https://aquasecurity.github.io/trivy/latest/docs/vulnerability/examples/filter/
 
 # Ignore specific CVEs that are not applicable or have known mitigations
@@ -9,19 +9,3 @@
 
 # Ignore vulnerabilities in development dependencies
 # **/node_modules/**/package.json
-
-# Ignore specific paths
-frontend/node_modules/
-cache/
-build/
-dist/
-output/
-
-# Secret patterns to ignore (be very careful with this)
-# Example patterns that might generate false positives:
-# Generic Base64 patterns that are not secrets
-# Generic hex patterns in config files
-
-# Add specific file patterns or paths that should be ignored for secret scanning
-# **/*.log
-# **/test/**

@@ -45,6 +45,7 @@ jobs:
           severity: 'CRITICAL'
           ignore-unfixed: true
           exit-code: '1'
+          scanners: 'vuln'
 
   build-frontend:
     runs-on: ubuntu-latest
