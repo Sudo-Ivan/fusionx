@@ -2,8 +2,6 @@
 # https://aquasecurity.github.io/trivy/latest/docs/references/configuration/
 
 # Global settings
-cache:
-  clear: false
 db:
   skip-update: false
   
