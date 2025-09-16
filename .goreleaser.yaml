@@ -28,6 +28,22 @@ builds:
       - goos: windows
         goarch: arm
         goarm: 7
+      - goos: openbsd
+        goarch: arm
+      - goos: openbsd
+        goarch: arm
+        goarm: 6
+      - goos: openbsd
+        goarch: arm
+        goarm: 7
+      - goos: freebsd
+        goarch: arm
+      - goos: freebsd
+        goarch: arm
+        goarm: 6
+      - goos: freebsd
+        goarch: arm
+        goarm: 7
 
 archives:
   - id: default
