@@ -156,6 +156,10 @@ func Run(params Params) {
 	items.PATCH("/-/unread", itemAPIHandler.UpdateUnread)
 	items.DELETE("/:id", itemAPIHandler.Delete)
 
+	favicons := authed.Group("/favicons")
+	faviconAPIHandler := newFaviconAPI("./cache/favicons")
+	favicons.GET("/:filename", faviconAPIHandler.ServeFavicon)
+
 	statsAPIHandler := newStatsAPI(server.NewStats(repo.NewStats(repo.DB), params.DBPath))
 	authed.GET("/stats", statsAPIHandler.Get)
 

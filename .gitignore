@@ -1,5 +1,6 @@
 .DS_*
 *.db
+cache/
 *.paw
 tmp/
 build/

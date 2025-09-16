@@ -10,6 +10,7 @@ import (
 	"github.com/Sudo-Ivan/fusionx/model"
 	"github.com/Sudo-Ivan/fusionx/pkg/ptr"
 	"github.com/Sudo-Ivan/fusionx/repo"
+	"github.com/Sudo-Ivan/fusionx/service/favicon"
 )
 
 var (
@@ -34,6 +35,7 @@ type Puller struct {
 	feedRepo   FeedRepo
 	itemRepo   ItemRepo
 	configRepo ConfigRepo
+	faviconSvc *favicon.Service
 }
 
 // TODO: cache favicon
@@ -43,6 +45,7 @@ func NewPuller(feedRepo FeedRepo, itemRepo ItemRepo, configRepo ConfigRepo) *Pul
 		feedRepo:   feedRepo,
 		itemRepo:   itemRepo,
 		configRepo: configRepo,
+		faviconSvc: favicon.NewService("./cache/favicons"),
 	}
 }
 
@@ -55,6 +58,9 @@ func (p *Puller) Run() {
 	for {
 		// #nosec G104 - PullAll errors are logged internally, service should continue running
 		p.PullAll(context.Background(), false)
+		
+		// Also try to fix missing favicons
+		p.FixMissingFavicons(context.Background())
 
 		<-ticker.C
 
@@ -79,6 +85,25 @@ func (p *Puller) getCurrentInterval() time.Duration {
 		return interval
 	}
 	return configInterval
+}
+
+func (p *Puller) FixMissingFavicons(ctx context.Context) {
+	feeds, err := p.feedRepo.List(&repo.FeedListFilter{})
+	if err != nil {
+		slog.Warn("failed to get feeds for favicon fixing", "error", err)
+		return
+	}
+	
+	for _, feed := range feeds {
+		if feed.Link != nil && (feed.FaviconPath == nil || *feed.FaviconPath == "") {
+			// This feed doesn't have a cached favicon, try to fetch it
+			if faviconPath, err := p.faviconSvc.GetFaviconPath(*feed.Link); err == nil {
+				// Update the feed with the favicon path
+				p.feedRepo.Update(feed.ID, &model.Feed{FaviconPath: &faviconPath})
+				slog.Debug("fixed missing favicon", "feed_id", feed.ID, "favicon_path", faviconPath)
+			}
+		}
+	}
 }
 
 func (p *Puller) PullAll(ctx context.Context, force bool) error {

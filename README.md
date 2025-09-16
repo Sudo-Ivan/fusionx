@@ -12,6 +12,7 @@
 - Demo Mode (demo deployment coming soon)
 - 3-pane and drawer slide-out reading views (configure in settings)
 - Share button for feed items (copies link to clipboard)
+- Favicon Caching
 
 ## To-Do
 

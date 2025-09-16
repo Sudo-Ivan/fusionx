@@ -10,6 +10,7 @@ import (
 	"github.com/0x2E/feedfinder"
 	"github.com/Sudo-Ivan/fusionx/model"
 	"github.com/Sudo-Ivan/fusionx/repo"
+	"github.com/Sudo-Ivan/fusionx/service/favicon"
 	"github.com/Sudo-Ivan/fusionx/service/pull"
 	"github.com/Sudo-Ivan/fusionx/service/pull/client"
 )
@@ -23,12 +24,14 @@ type FeedRepo interface {
 }
 
 type Feed struct {
-	repo FeedRepo
+	repo        FeedRepo
+	faviconSvc  *favicon.Service
 }
 
 func NewFeed(repo FeedRepo) *Feed {
 	return &Feed{
-		repo: repo,
+		repo:       repo,
+		faviconSvc: favicon.NewService("./cache/favicons"),
 	}
 }
 
@@ -109,6 +112,19 @@ func (f Feed) Create(ctx context.Context, req *ReqFeedCreate) (*RespFeedCreate, 
 	}
 
 	puller := pull.NewPuller(repo.NewFeed(repo.DB), repo.NewItem(repo.DB), nil)
+	
+	// Cache favicons for all feeds
+	go func() {
+		for _, feed := range feeds {
+			if feed.Link != nil {
+				if faviconPath, err := f.faviconSvc.GetFaviconPath(*feed.Link); err == nil {
+					// Update feed with favicon path
+					f.repo.Update(feed.ID, &model.Feed{FaviconPath: &faviconPath})
+				}
+			}
+		}
+	}()
+	
 	if len(feeds) > 1 {
 		go func() {
 			routinePool := make(chan struct{}, 10)

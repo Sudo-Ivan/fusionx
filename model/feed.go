@@ -27,6 +27,8 @@ type Feed struct {
 	// ConsecutiveFailures is the number of consecutive times we've failed to
 	// retrieve this feed.
 	ConsecutiveFailures uint `gorm:"consecutive_failures;default:0"`
+	// FaviconPath is the local filesystem path to the cached favicon
+	FaviconPath *string `gorm:"favicon_path"`
 
 	Suspended *bool `gorm:"suspended;default:false"`
 

@@ -80,6 +80,12 @@ func (f Feed) Get(id uint) (*model.Feed, error) {
 	return &res, err
 }
 
+func (f Feed) FindByFaviconHash(faviconHash string) ([]*model.Feed, error) {
+	var res []*model.Feed
+	err := f.db.Model(&model.Feed{}).Where("link IS NOT NULL").Find(&res).Error
+	return res, err
+}
+
 func (f Feed) Create(data []*model.Feed) error {
 	return f.db.Clauses(clause.OnConflict{
 		Columns:   []clause.Column{{Name: "link"}, {Name: "deleted_at"}},
