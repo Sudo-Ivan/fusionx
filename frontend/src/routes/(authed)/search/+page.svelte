@@ -28,11 +28,11 @@
 
 <div class="flex flex-col">
 	<PageNavHeader title={t('common.search')}></PageNavHeader>
-	<div class="px-4 lg:px-8">
+	<div class="px-2 sm:px-4 lg:px-8">
 		<div class="py-6">
-			<h1 class="text-3xl font-bold">{t('common.search')}: {filterForm.keyword}</h1>
+			<h1 class="text-2xl sm:text-3xl font-bold">{t('common.search')}: {filterForm.keyword}</h1>
 		</div>
-		<form onsubmit={handleSearch} class="w-full max-w-lg pb-4">
+		<form onsubmit={handleSearch} class="w-full max-w-lg pb-4 px-1">
 			<div class="join w-full">
 				<div class="w-full">
 					<label class="input join-item w-full">

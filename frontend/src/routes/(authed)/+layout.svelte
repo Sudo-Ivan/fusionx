@@ -79,7 +79,7 @@
 
 <div class="drawer lg:drawer-open">
 	<input id="sidebar-toggle" type="checkbox" bind:checked={showSidebar} class="drawer-toggle" />
-	<div class="drawer-content bg-base-100 relative z-10 min-h-screen overflow-x-clip">
+	<div class="drawer-content bg-base-100 relative z-10 min-h-screen overflow-x-auto">
 		{#if globalState.demoMode}
 			<div class="alert alert-info shadow-lg">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -88,7 +88,7 @@
 		{/if}
 		<div class="flex h-full">
 			<!-- Main content area -->
-			<div class={`flex flex-col pb-4 ${globalState.readingPaneMode === '3pane' && (selectedItem || loading) ? 'flex-1' : 'mx-auto max-w-6xl flex-1'}`}>
+			<div class={`flex flex-col pb-4 ${globalState.readingPaneMode === '3pane' && (selectedItem || loading) ? 'flex-1' : 'mx-auto max-w-6xl flex-1 min-w-0'}`}>
 				<svelte:boundary>
 					{@render children()}
 					{#snippet failed(error, reset)}
@@ -100,7 +100,7 @@
 			
 			<!-- Reading pane sidebar for 3-pane mode -->
 			{#if globalState.readingPaneMode === '3pane' && (selectedItem || loading)}
-				<div class="w-1/2 border-l border-base-300 bg-base-50">
+				<div class="hidden lg:block lg:w-1/2 border-l border-base-300 bg-base-50">
 					{#if loading}
 						<div class="flex items-center justify-center h-full">
 							<span class="loading loading-spinner loading-lg"></span>
@@ -115,7 +115,7 @@
 	<div class="drawer-side z-10">
 		<label for="sidebar-toggle" aria-label="close sidebar" class="drawer-overlay"></label>
 		<div
-			class="text-base-content bg-base-200 z-50 h-full min-h-full w-[80%] overflow-x-hidden px-2 py-4 lg:w-72"
+			class="text-base-content bg-base-200 z-50 h-full min-h-full w-[85%] sm:w-[80%] overflow-x-hidden px-2 py-4 lg:w-72"
 		>
 			<Sidebar />
 		</div>

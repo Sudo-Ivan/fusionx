@@ -38,10 +38,10 @@
 		<PullToRefresh onrefresh={handleRefresh}>
 			{#snippet children()}
 				<div class="h-full flex flex-col">
-					<div class="px-4 lg:px-8 py-6 flex-shrink-0">
-						<h1 class="text-3xl font-bold">{t('common.unread')}</h1>
+					<div class="px-2 sm:px-4 lg:px-8 py-6 flex-shrink-0">
+						<h1 class="text-2xl sm:text-3xl font-bold">{t('common.unread')}</h1>
 					</div>
-					<div class="flex-1 px-4 lg:px-8 overflow-hidden">
+					<div class="flex-1 px-2 sm:px-4 lg:px-8 overflow-hidden">
 						<AdaptiveItemLayout itemsData={data.items} highlightUnread={true} />
 					</div>
 				</div>

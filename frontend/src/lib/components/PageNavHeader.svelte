@@ -13,7 +13,7 @@
 </script>
 
 <header class="bg-base-100 border-neutral sticky top-0 z-50 border-b py-2">
-	<div class="flex flex-col justify-between px-1 md:px-4 lg:flex-row lg:items-center lg:px-8">
+	<div class="flex flex-col justify-between px-2 md:px-4 lg:flex-row lg:items-center lg:px-8">
 		<div class="flex items-center justify-between gap-4">
 			<label for="sidebar-toggle" class="btn btn-ghost btn-square lg:hidden">
 				<Menu class="size-4" />

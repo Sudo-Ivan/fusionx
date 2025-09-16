@@ -12,9 +12,9 @@
 
 <div class="flex flex-col">
 	<PageNavHeader showSearch={true}></PageNavHeader>
-	<div class="px-4 lg:px-8">
+	<div class="px-2 sm:px-4 lg:px-8">
 		<div class="py-6">
-			<h1 class="text-3xl font-bold">{t('common.bookmark')}</h1>
+			<h1 class="text-2xl sm:text-3xl font-bold">{t('common.bookmark')}</h1>
 		</div>
 		<AdaptiveItemLayout itemsData={data.items} />
 	</div>

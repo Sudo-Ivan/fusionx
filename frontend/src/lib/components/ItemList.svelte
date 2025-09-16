@@ -134,7 +134,7 @@
 								onItemClick ? onItemClick(item) : goto('/items/' + item.id);
 							}
 						}}
-						class={`group hover:bg-base-200 relative flex w-full flex-col items-center justify-between space-y-1 space-x-2 rounded-md px-2 py-2 transition-colors focus:ring-2 md:flex-row cursor-pointer ${selectedItemId === item.id ? 'bg-primary/10 border border-primary/30' : ''}`}
+						class={`group hover:bg-base-200 relative flex w-full flex-col items-start justify-between space-y-1 rounded-md px-2 py-2 transition-colors focus:ring-2 md:flex-row md:items-center cursor-pointer ${selectedItemId === item.id ? 'bg-primary/10 border border-primary/30' : ''}`}
 					>
 						<div class="flex w-full md:w-[80%] md:shrink-0">
 							<h2
@@ -145,7 +145,7 @@
 						</div>
 						<div class="flex w-full md:grow">
 							<div
-								class="text-base-content/60 flex w-full justify-between gap-2 text-xs font-normal group-hover:hidden group-focus:hidden"
+								class="text-base-content/60 flex w-full justify-between gap-2 text-xs font-normal md:group-hover:hidden md:group-focus:hidden"
 							>
 								<div class="flex grow items-center space-x-2 overflow-x-hidden">
 									<div class="avatar">
@@ -163,7 +163,7 @@
 							</div>
 						</div>
 						<div
-							class="invisible absolute right-1 w-fit justify-end gap-2 md:group-hover:visible md:group-hover:flex md:group-focus:visible md:group-focus:flex"
+							class="invisible absolute right-1 top-1 w-fit justify-end gap-1 flex md:group-hover:visible md:group-focus:visible group-hover:visible group-focus:visible"
 						>
 							<ItemActionUnread bind:item={items[i]} enableShortcut={i === selectedItemIndex} />
 							<ItemActionBookmark bind:item={items[i]} enableShortcut={i === selectedItemIndex} />
