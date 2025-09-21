@@ -18,6 +18,7 @@
 
 - Fix default favicon
 - Fix missing favicons for some feeds
+- Fix styling of feed errors
 - Better search system
 - Fever API Support
 - Initial OPML or feed import via command or config
