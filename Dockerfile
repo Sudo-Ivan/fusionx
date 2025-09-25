@@ -8,7 +8,7 @@ COPY scripts.sh .
 RUN ./scripts.sh build-frontend
 
 # build backend
-FROM golang:1.24 AS be
+FROM golang:1.25 AS be
 # Add Arguments for target OS and architecture (provided by buildx)
 ARG TARGETOS
 ARG TARGETARCH
