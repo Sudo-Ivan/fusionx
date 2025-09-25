@@ -32,11 +32,11 @@ func (f *faviconAPI) ServeFavicon(c echo.Context) error {
 	}
 
 	faviconPath := filepath.Join(f.cacheDir, filename)
-	
+
 	// If favicon doesn't exist, try to fetch it from the actual feed
 	if _, err := os.Stat(faviconPath); os.IsNotExist(err) {
 		requestedHash := strings.TrimSuffix(filename, ".png")
-		
+
 		// Find all feeds and check which one matches this hash
 		feeds, err := f.feedRepo.FindByFaviconHash(requestedHash)
 		if err == nil {
@@ -54,13 +54,13 @@ func (f *faviconAPI) ServeFavicon(c echo.Context) error {
 				}
 			}
 		}
-		
+
 		// If we couldn't find and fetch a real favicon, create a default as last resort
 		if _, err := f.faviconSvc.CreateDefaultFavicon(faviconPath); err != nil {
 			return echo.NewHTTPError(http.StatusNotFound, "favicon not found")
 		}
 	}
-	
+
 	c.Response().Header().Set("Cache-Control", "public, max-age=86400")
 	return c.File(faviconPath)
 }

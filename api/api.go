@@ -117,12 +117,12 @@ func Run(params Params) {
 			return func(c echo.Context) error {
 				method := c.Request().Method
 				path := c.Request().URL.Path
-				
+
 				// Allow feed refresh in demo mode (read-only operation)
 				if method == "POST" && path == "/api/feeds/refresh" {
 					return next(c)
 				}
-				
+
 				if method == "POST" || method == "PATCH" || method == "DELETE" {
 					return echo.NewHTTPError(http.StatusForbidden, "Demo mode: write operations not allowed")
 				}
@@ -166,7 +166,6 @@ func Run(params Params) {
 	configAPIHandler := newConfigAPI(server.NewConfig(repo.NewConfig(repo.DB), params.DemoMode))
 	authed.GET("/config", configAPIHandler.Get)
 	authed.PATCH("/config", configAPIHandler.Update)
-
 
 	var err error
 	addr := fmt.Sprintf("%s:%d", params.Host, params.Port)
